@@ -1,20 +1,19 @@
-import { Controller, Get, Post, Headers, Patch, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body } from '@nestjs/common';
 import { AutosService } from './autos.service';
 import { ApiTags } from '@nestjs/swagger';
+import { AutosDatosEntrada } from './datos-entrada.imputs';
 @ApiTags('MODULO DE AUTOS')
 @Controller('Autos')
 export class AutosController {
-  constructor(private readonly autosService: AutosService) {}
+  constructor(private readonly autosObjeto: AutosService) {}
 
-  @Post('create')
-  create(@Headers() cabereza: string) {
-    this.autosService.create(cabereza);
-    return `Auto creado exitosamente`;
+  @Post('insertar')
+  create(@Body() body: AutosDatosEntrada) {
+    return this.autosObjeto.create(body);
   }
-
-  @Get('read')
+  @Get('listar')
   read() {
-    return `Todos los Autos`;
+    return this.autosObjeto.listar();
   }
   @Patch('Actualizar')
   update() {

@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { AutosDatosEntrada } from './datos-entrada.imputs';
 
 @Injectable()
 export class AutosService {
-  create(cabereza: string) {
-    console.log(cabereza);
-
-    // desde que navegadore viene la peticion???
-    return `Auto creado exitosamente`;
+  // crud
+  listaDeAutos = [];
+  create(body: AutosDatosEntrada) {
+    this.listaDeAutos.push(body);
+    return `Auto ${body.Marca} se creo exitosamente`;
   }
-
+  listar() {
+    return this.listaDeAutos;
+  }
   read() {
     return `Se encontro al Auto`;
   }
