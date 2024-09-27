@@ -1,26 +1,28 @@
-import { Body, Controller, Get, Headers, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { CatService } from './cat.service';
 import { ApiTags } from '@nestjs/swagger';
-import { CatBody } from './cat.datos.entrada';
+import { CatDatosEntrada } from './datos-entrada.input';
 
 @ApiTags('modulo de gatos')
-@Controller()
+@Controller('')
 export class CatController {
   constructor(private readonly catObjeto: CatService) {} // inicializar valores
 
-  @Post('create')
-  create(@Headers() cabereza: string, @Body() body: CatBody) {
-    console.log(body);
-    return this.catObjeto.create(cabereza);
+  @Post('api/v6/onboarding/info')
+  create(@Body() body: CatDatosEntrada) {
+    return this.catObjeto.create(body);
   }
 
-  @Get('read')
+  @Get('listar')
   read() {
-    return `todos los gatos`;
+    return this.catObjeto.listar();
   }
+
+  @Patch('actualizar')
   update() {
     return `el gato fue actualizado`;
   }
+  @Delete('eliminar')
   delete() {
     return `el gato fue eliminado`;
   }
