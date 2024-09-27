@@ -1,23 +1,23 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class AvionService {
+export class AutosService {
   create(cabereza: string) {
     console.log(cabereza);
 
     // desde que navegadore viene la peticion???
-    return `Avión creado exitosamente`;
+    return `Auto creado exitosamente`;
   }
 
   read() {
-    return `Se encontro al avion`;
+    return `Se encontro al Auto`;
   }
 
   update() {
-    return `El avion fue actualizado`;
+    return `El Auto fue actualizado`;
   }
 
   delete() {
-    return `El avión fue eliminado`;
+    return `El Auto fue eliminado`;
   }
 }
