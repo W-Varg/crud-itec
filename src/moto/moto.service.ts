@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { motoEntrada } from './data-input';
 @Injectable()
 export class motoService {
-  crear() {
-    return `moto creada`;
+  listaMotos = [];
+  crear(body: motoEntrada) {
+    this.listaMotos.push(body);
+    return `moto ${body.marca} creada exitosamente`;
   }
-  leer() {
-    return `se encontro la marca`;
+  listar() {
+    return this.listaMotos;
   }
   actualizar() {
     return `moto actualizada`;
