@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { CatDatosEntrada } from './datos-entrada.input';
 
 @Injectable()
 export class CatService {
   // crud
+  listaDeGatos = [];
 
-  create(cabereza: string) {
-    console.log(cabereza);
-
-    // desde que navegadore viene la peticion???
-    return `gato creado exitosamente`;
+  create(body: CatDatosEntrada) {
+    this.listaDeGatos.push(body);
+    return `gato ${body.nombre} se creo exitosamente`;
   }
 
-  read() {
-    return `se encontro al gato`;
+  listar() {
+    return this.listaDeGatos;
   }
 
   update() {

@@ -1,18 +1,18 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { motoService } from './moto.service';
 import { ApiTags } from '@nestjs/swagger';
-@ApiTags()
+import { motoEntrada } from './data-input';
+@ApiTags('Modulo de Motos')
 @Controller()
 export class motoController {
   constructor(private readonly motoObjeto: motoService) {}
-  @Post('Registrar/crear/motos')
-  crear() {
-    //this.motoObjeto.crear(marca);
-    return `moto creada`;
+  @Post('')
+  crear(@Body() body: motoEntrada) {
+    return this.motoObjeto.crear(body);
   }
   @Get('listar/marcas')
-  leer() {
-    return `todos las marcas`;
+  listar() {
+    return this.motoObjeto.listar();
   }
   actualizar() {
     return `moto actualizada`;
