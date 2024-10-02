@@ -83,3 +83,8 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+
+- Cargar y leear archivos excel con NestJS
+- descargar reportes de excel con NestJS
+- listar estudiantes filtrando datos con NestJS
