@@ -88,3 +88,8 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 - Cargar y leear archivos excel con NestJS
 - descargar reportes de excel con NestJS
 - listar estudiantes filtrando datos con NestJS
+
+violeta-> Peliculas
+Cesar -> listas
+wilber -> estudiantes
+jonatan-> mascotas 
