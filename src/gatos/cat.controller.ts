@@ -13,6 +13,8 @@ import {
 import { CatService } from './cat.service';
 import { ApiTags } from '@nestjs/swagger';
 import { CatDatosEntrada } from './datos-entrada.input';
+import { CatModel } from './cat.model';
+import { randomInt } from 'crypto';
 
 @ApiTags('modulo de gatos')
 @Controller('gatos')
@@ -20,7 +22,7 @@ export class CatController {
   constructor(private readonly catObjeto: CatService) {} // inicializar valores
 
   @Post('registrar')
-  create(@Body() body: CatDatosEntrada) {
+  async create(@Body() body: CatDatosEntrada): Promise<CatModel> {
     // console.log(body.edad, Number(body.edad));
     if (Number(body.edad) > 0) {
       console.log('paso la validacion');
@@ -51,7 +53,12 @@ export class CatController {
     }
 
     // default 201
-    return this.catObjeto.create(body);
+    const catModel = this.catObjeto.create({
+      ...body,
+      id: Number(randomInt(1, 10)),
+    });
+
+    return catModel;
   }
 
   @Get('listar')
@@ -59,14 +66,14 @@ export class CatController {
     return this.catObjeto.listar();
   }
 
-  @Patch('actualizar/:gato_actual1') // url, link, enlace
-  update(@Param('gato_actual1') nombreGato: string) {
+  @Patch('actualizar/:id') // url, link, enlace
+  update(@Param('id') id: number, @Body() body: CatDatosEntrada) {
     // captura el valor desde la url
-    return this.catObjeto.actualizar(nombreGato);
+    return this.catObjeto.actualizar(id, body);
   }
 
-  @Delete('eliminar/:gato_a_eliminar') // url
-  delete1(@Param('gato_a_eliminar') gato_a_eliminar: string) {
+  @Delete('eliminar/:id') // url
+  delete1(@Param('id') gato_a_eliminar: string) {
     return this.catObjeto.eliminar(gato_a_eliminar);
   }
   // @Delete('eliminar/:gato_a_eliminar2/elimina-por-edad') // url
