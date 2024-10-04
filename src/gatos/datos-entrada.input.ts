@@ -12,4 +12,7 @@ export class CatDatosEntrada {
 
   @ApiProperty()
   esBebe: boolean;
+
+  @ApiProperty({ default: false })
+  estaAutorizado?: boolean;
 }
