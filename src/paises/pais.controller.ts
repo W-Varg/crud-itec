@@ -1,6 +1,18 @@
-import { Controller, Delete, Get, Headers, Patch, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { PaisService } from './pais.service';
 import { ApiTags } from '@nestjs/swagger';
+import { PaisDatosEntrada } from './datos-entrada.input';
+import { randomInt } from 'crypto';
+import { PaisModel } from './pais.model';
 
 @ApiTags('modulo de paises')
 @Controller('Pais')
@@ -8,20 +20,35 @@ export class PaisController {
   constructor(private readonly paisObjeto: PaisService) {} // inicializar valores
 
   @Post('create')
-  create(@Headers() cabereza: string) {
-    return this.paisObjeto.create(cabereza);
+  async create(@Body() body: PaisDatosEntrada): Promise<PaisModel> {
+    if (body.poblacion > 0) {
+      console.log('Dato valido');
+    } else {
+      throw new BadRequestException('Dato Población debe ser numérico');
+    }
+    if (
+      typeof body.nombre !== 'string' ||
+      typeof body.capital !== 'string' ||
+      typeof body.continente !== 'string' ||
+      typeof body.idioma !== 'string' ||
+      typeof body.presidente !== 'string'
+    ) {
+      throw new BadRequestException('El valor debe ser un texto');
+    }
+
+    return this.paisObjeto.create({ ...body, id: Number(randomInt(1, 10)) });
   }
 
   @Get('read')
   read() {
-    return `todos los paises`;
+    return this.paisObjeto.read();
   }
-  @Patch('actualizar')
-  update() {
-    return `el pais fue actualizado`;
+  @Patch('actualizar/:paisBuscado')
+  update(@Param('paisBuscado') nombrePais: string) {
+    return this.paisObjeto.update(nombrePais);
   }
-  @Delete('Eliminar')
-  delete() {
-    return `el pais fue eliminado`;
+  @Delete('Eliminar/:paisEliminar')
+  delete(@Param('paisEliminar') nombrePais: string) {
+    return this.paisObjeto.delete(nombrePais);
   }
 }

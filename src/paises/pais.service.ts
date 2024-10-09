@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { PaisDatosEntrada } from './datos-entrada.input';
 
 @Injectable()
 export class PaisService {
-  create(cabecera: string) {
-    console.log(cabecera);
-    return `pais creado exitosamente`;
+  listaPaises = [];
+
+  create(body: PaisDatosEntrada) {
+    this.listaPaises.push(body);
+    return `El Pais ${body.nombre} se creo exitosamente`;
   }
 
   read() {
-    return `se encontro al pais`;
+    return this.listaPaises;
   }
 
   update() {
