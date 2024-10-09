@@ -12,8 +12,8 @@ import {
 } from '@nestjs/common';
 import { CatService } from './cat.service';
 import { ApiTags } from '@nestjs/swagger';
-import { CatDatosEntrada } from './datos-entrada.input';
-import { CatModel } from './cat.model';
+import { CatDatosEntrada } from './dto/cat.input.dto';
+import { CatModel } from './dto/cat.model';
 import { randomInt } from 'crypto';
 
 @ApiTags('modulo de gatos')
@@ -23,6 +23,8 @@ export class CatController {
 
   @Post('registrar')
   async create(@Body() body: CatDatosEntrada): Promise<CatModel> {
+    console.log('ingreso cuando los datos son validos');
+
     // console.log(body.edad, Number(body.edad));
     if (Number(body.edad) > 0) {
       console.log('paso la validacion');
@@ -30,22 +32,22 @@ export class CatController {
       throw new BadRequestException('error de validacion');
     }
 
-    if (typeof body.edad == 'string')
-      throw new BadRequestException(
-        'error de validacion, edad debe ser number',
-      );
+    // if (typeof body.edad == 'string')
+    //   throw new BadRequestException(
+    //     'error de validacion, edad debe ser number',
+    //   );
 
-    if (typeof body.nombre !== 'string') {
-      console.log(
-        typeof body.nombre,
-        'string',
-        typeof body.nombre !== 'string',
-      );
+    // if (typeof body.nombre !== 'string') {
+    //   console.log(
+    //     typeof body.nombre,
+    //     'string',
+    //     typeof body.nombre !== 'string',
+    //   );
 
-      throw new BadRequestException(
-        'error de validacion, nombre debe ser string',
-      );
-    }
+    //   throw new BadRequestException(
+    //     'error de validacion, nombre debe ser string',
+    //   );
+    // }
 
     if (body.estaAutorizado === false) {
       throw new UnauthorizedException(
@@ -61,8 +63,17 @@ export class CatController {
 
     // default 201
     const catModel = this.catObjeto.create({
-      ...body,
       id: Number(randomInt(1, 10)),
+      nombre: body.nombre,
+      raza: body.raza,
+      edad: Number(body.edad),
+      esBebe: body.esBebe,
+      estaAutorizado: body.estaAutorizado,
+
+      fechaCreacion: new Date(),
+      usuarioCreadorId: 101,
+      // fechaActualizacion: new Date(),
+      // usuarioActualizadorId: 107,
     });
 
     return catModel;

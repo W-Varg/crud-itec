@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CatDatosEntrada } from './datos-entrada.input';
-import { CatModel } from './cat.model';
+import { CatDatosEntrada } from './dto/cat.input.dto';
+import { CatModel } from './dto/cat.model';
 
 @Injectable()
 export class CatService {
