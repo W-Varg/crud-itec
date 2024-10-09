@@ -10,8 +10,6 @@ import { PeliculaModule } from './peliculas/pelicula.module';
 import { MascotasModule } from './mascotas/mascotas.module';
 import { celModule } from './celular/cel.module';
 
-
-
 @Module({
   imports: [
     CatModule,
@@ -25,4 +23,4 @@ import { celModule } from './celular/cel.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
