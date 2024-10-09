@@ -35,8 +35,11 @@ export class PaisController {
     ) {
       throw new BadRequestException('El valor debe ser un texto');
     }
-
-    return this.paisObjeto.create({ ...body, id: Number(randomInt(1, 10)) });
+    const cont = this.paisObjeto.create({
+      ...body,
+      id: Number(randomInt(1, 10)),
+    });
+    return;
   }
 
   @Get('read')

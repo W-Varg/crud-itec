@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class PaisDatosEntrada {
+export class PaisModel {
+  id?: number;
+
   @ApiProperty()
   nombre: string;
 
@@ -20,5 +22,5 @@ export class PaisDatosEntrada {
   presidente: string;
 
   @ApiProperty()
-  autorizado: boolean;
+  autorizado?: boolean;
 }
