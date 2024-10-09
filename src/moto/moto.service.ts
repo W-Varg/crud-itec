@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { motoEntrada } from './data-input';
+import { motoEntrada } from './dto/data-input';
 @Injectable()
 export class motoService {
   listaMotos = [];

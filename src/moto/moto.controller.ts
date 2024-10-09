@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { motoService } from './moto.service';
 import { ApiTags } from '@nestjs/swagger';
-import { motoEntrada } from './data-input';
+import { motoEntrada } from './dto/data-input';
 @ApiTags('Modulo de Motos')
 @Controller()
 export class motoController {

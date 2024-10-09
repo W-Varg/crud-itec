@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { celService } from './cel.service';
-import { celDatosEntrada } from './data-input';
+import { celDatosEntrada } from './dto/data-input';
 @ApiTags('Modulo Celulares')
 @Controller('')
 export class celController {
