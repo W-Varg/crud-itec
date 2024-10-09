@@ -1,6 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CatDatosEntrada {
+export class CatModel {
+  //identificador unico
+  id?: number;
+
   @ApiProperty()
   nombre: string;
 
@@ -12,7 +15,4 @@ export class CatDatosEntrada {
 
   @ApiProperty()
   esBebe: boolean;
-
-  @ApiProperty({ default: false })
-  estaAutorizado?: boolean;
 }

@@ -1,44 +1,50 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CatDatosEntrada } from './datos-entrada.input';
+import { CatModel } from './cat.model';
 
 @Injectable()
 export class CatService {
   // crud
-  listaDeGatos: CatDatosEntrada[] = []; // [{nombre:'garfield'}, {nombre:'pelusa'}, {nombre:'tom'}]
+  private listaDeGatos: CatModel[] = []; // [{nombre:'garfield'}, {nombre:'pelusa'}, {nombre:'tom'}]
 
-  create(body: CatDatosEntrada) {
+  create(body: CatModel): CatModel {
     this.listaDeGatos.push(body);
-    return `gato ${body.nombre} se creo exitosamente`;
+
+    return body;
   }
 
   listar() {
     return this.listaDeGatos;
   }
 
-  actualizar(nombreGato: string) {
-    // 'peludo'
+  actualizar(id: number, body: CatDatosEntrada) {
+    // console.log(typeof id); // string
+
     const gatoEncontrado = this.listaDeGatos.find(
-      (elementoGato: CatDatosEntrada) => elementoGato.nombre === nombreGato,
-    ); // equivanlente a for
-    if (gatoEncontrado == null) {
-      return `el gato ${nombreGato} no se encontro en la lista`;
-    } else {
-      const posiciondeGato = this.listaDeGatos.findIndex(
-        (elementoGato) => elementoGato.nombre === nombreGato,
-      ); // equivanlente a for
+      (elementoGato) => elementoGato.id === Number(id), // number && number
+    );
 
-      this.listaDeGatos[posiciondeGato] = {
-        nombre: nombreGato,
-        raza: 'peludo',
-        edad: 2,
-        esBebe: false,
-      };
+    // console.log(this.listaDeGatos);
+    // console.log(gatoEncontrado);
 
-      return {
-        gatos: this.listaDeGatos,
-        mensaje: `el gato ${nombreGato} fue actualizado`,
-      };
+    if (gatoEncontrado === undefined) {
+      throw new NotFoundException('gato no encontrado');
     }
+
+    const posicionGato = this.listaDeGatos.findIndex(
+      (elementoGato) => elementoGato.id === Number(id),
+    );
+
+    this.listaDeGatos[posicionGato] = {
+      ...gatoEncontrado,
+      // nomb:''
+      // edad:7
+      ...body,
+      // nombre: 'peludo',
+      // edad: 8
+    };
+
+    return this.listaDeGatos[posicionGato];
   }
 
   eliminar(nombreGato: string) {
