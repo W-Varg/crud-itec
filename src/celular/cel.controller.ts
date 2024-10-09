@@ -26,8 +26,8 @@ export class celController {
   update_1(@Param('Celular_Actual') nombreCel: string) {
     return this.celObjeto.update(nombreCel);
   }
-  @Delete('Eliminar_Celular')
-  delete_1(@Param('Celular_a_eliminar') cel_a_eliminar: string) {
-    return this.celObjeto.delete(cel_a_eliminar);
-  }
+  // @Delete('Eliminar_Celular')
+  // delete_1(@Param('Celular_a_eliminar') cel_a_eliminar: string) {
+  //   return this.celObjeto.delete(cel_a_eliminar);
+  // }
 }
