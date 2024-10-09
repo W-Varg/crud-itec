@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { celDatosEntrada } from './data-input';
+import { celDatosEntrada } from './dto/data-input';
 @Injectable()
 export class celService {
   listaCel: celDatosEntrada[] = [];

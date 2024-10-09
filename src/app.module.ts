@@ -6,6 +6,8 @@ import { CatModule } from './gatos/cat.module';
 import { AvionModule } from './avion/avion.module';
 import { motoModule } from './moto/moto.module';
 import { AutosModule } from './autos/autos.module';
+import { PeliculaModule } from './peliculas/pelicula.module';
+import { MascotasModule } from './mascotas/mascotas.module';
 import { celModule } from './celular/cel.module';
 
 @Module({
@@ -15,6 +17,7 @@ import { celModule } from './celular/cel.module';
     PaisModule,
     motoModule,
     AutosModule,
+    PeliculaModule,
     celModule,
   ],
   controllers: [AppController],
