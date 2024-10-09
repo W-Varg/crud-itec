@@ -30,6 +30,11 @@ export class CatController {
       throw new BadRequestException('error de validacion');
     }
 
+    if (typeof body.edad == 'string')
+      throw new BadRequestException(
+        'error de validacion, edad debe ser number',
+      );
+
     if (typeof body.nombre !== 'string') {
       console.log(
         typeof body.nombre,
@@ -49,7 +54,9 @@ export class CatController {
     }
 
     if (body.raza === 'siames') {
-      throw new BadGatewayException('la base de datos esta llna');
+      throw new BadGatewayException(
+        'la memoria ram no es suficiente para procesar esta peticion',
+      );
     }
 
     // default 201
