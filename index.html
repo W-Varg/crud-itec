@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    listar desde el servicio de wilver
+    <ul>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+    </ul>
+    <form action="">
+        nombre
+      <input type="text" />
+      edad
+      <input type="number" />
+      <input type="submit" />
+    </form>
+    <script>
+      fetch('https://f31g965q-3001.brs.devtunnels.ms/Estudiante/read')
+        .then((response) => {
+          const respuestadedePcDeWilver = response.json();
+          console.log(respuestadedePcDeWilver);
+          return respuestadedePcDeWilver;  
+        })
+        .then((json) => console.log(json));
+    </script>
+  </body>
+</html>

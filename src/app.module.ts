@@ -7,9 +7,19 @@ import { AvionModule } from './avion/avion.module';
 import { motoModule } from './moto/moto.module';
 import { AutosModule } from './autos/autos.module';
 import { MascotasModule } from './mascotas/mascotas.module';
+import { celModule } from './celular/cel.module';
+
+
 
 @Module({
-  imports: [CatModule, AvionModule, PaisModule, motoModule, AutosModule, MascotasModule],
+  imports: [
+    CatModule,
+    AvionModule,
+    PaisModule,
+    motoModule,
+    AutosModule,
+    celModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
