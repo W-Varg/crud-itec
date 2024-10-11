@@ -23,7 +23,7 @@ export class CatController {
 
   @Post('registrar')
   async create(@Body() body: CatDatosEntrada): Promise<CatModel> {
-    console.log('ingreso cuando los datos son validos');
+    // console.log('ingreso cuando los datos son validos');
 
     // console.log(body.edad, Number(body.edad));
     if (Number(body.edad) > 0) {
@@ -49,11 +49,11 @@ export class CatController {
     //   );
     // }
 
-    if (body.estaAutorizado === false) {
-      throw new UnauthorizedException(
-        'usted no esta autorizado para comsumir este servicio',
-      );
-    }
+    // if (body.estaAutorizado === false) {
+    //   throw new UnauthorizedException(
+    //     'usted no esta autorizado para comsumir este servicio',
+    //   );
+    // }
 
     // if (body.raza === 'siames') {
     //   throw new BadGatewayException(
@@ -77,6 +77,11 @@ export class CatController {
     });
 
     return catModel;
+  }
+
+  @Post('v2/registrar')
+  crearV2() {
+    return '';
   }
 
   @Get('listar')

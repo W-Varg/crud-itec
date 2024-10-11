@@ -9,14 +9,17 @@ import { AutosModule } from './autos/autos.module';
 import { PeliculaModule } from './peliculas/pelicula.module';
 import { MascotasModule } from './mascotas/mascotas.module';
 import { celModule } from './celular/cel.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
+    MongooseModule.forRoot('mongodb://localhost:27017/crud_itec'), // url de conexion
     CatModule,
     AvionModule,
     PaisModule,
     motoModule,
     AutosModule,
+    MascotasModule,
     PeliculaModule,
     celModule,
   ],
