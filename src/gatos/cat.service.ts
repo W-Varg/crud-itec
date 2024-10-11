@@ -9,7 +9,6 @@ export class CatService {
 
   create(body: CatModel): CatModel {
     this.listaDeGatos.push(body);
-
     return body;
   }
 

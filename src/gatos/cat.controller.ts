@@ -55,15 +55,15 @@ export class CatController {
       );
     }
 
-    if (body.raza === 'siames') {
-      throw new BadGatewayException(
-        'la memoria ram no es suficiente para procesar esta peticion',
-      );
-    }
+    // if (body.raza === 'siames') {
+    //   throw new BadGatewayException(
+    //     'la memoria ram no es suficiente para procesar esta peticion',
+    //   );
+    // }
 
     // default 201
     const catModel = this.catObjeto.create({
-      id: Number(randomInt(1, 10)),
+      id: Number(randomInt(1, 10)), // numero al azar
       nombre: body.nombre,
       raza: body.raza,
       edad: Number(body.edad),
