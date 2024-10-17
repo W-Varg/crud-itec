@@ -31,3 +31,15 @@ export class CatDatosEntrada {
   @ApiProperty({ default: false })
   estaAutorizado?: boolean;
 }
+
+// paso 1, crear clase de entrada para datos a actulizar
+export class CatActualizarEntrada {
+  @Length(3, 10, { message: 'el nombre debe ser entre 3 y 10 caracteres' })
+  @IsOptional()
+  @ApiProperty()
+  nombre?: string;
+
+  @ApiProperty()
+  @IsOptional()
+  raza?: string;
+}

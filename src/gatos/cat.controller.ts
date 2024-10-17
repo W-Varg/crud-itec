@@ -1,5 +1,5 @@
 import {
-  BadGatewayException,
+  // BadGatewayException,
   BadRequestException,
   Body,
   Controller,
@@ -8,20 +8,20 @@ import {
   Param,
   Patch,
   Post,
-  UnauthorizedException,
+  // UnauthorizedException,
 } from '@nestjs/common';
 import { CatService } from './cat.service';
 import { ApiTags } from '@nestjs/swagger';
-import { CatDatosEntrada } from './dto/cat.input.dto';
+import { CatActualizarEntrada, CatDatosEntrada } from './dto/cat.input.dto';
 import { CatModel } from './dto/cat.model';
-import { randomInt } from 'crypto';
+// import { randomInt } from 'crypto';
 
 @ApiTags('modulo de gatos')
 @Controller('gatos')
 export class CatController {
   constructor(private readonly catService: CatService) {} // inicializar valores
 
-  @Post('registrar')
+  @Post('registrar') // ok
   async create(@Body() body: CatDatosEntrada): Promise<CatModel> {
     // console.log('ingreso cuando los datos son validos');
 
@@ -66,25 +66,29 @@ export class CatController {
     return gatoCreadoEnService;
   }
 
-  @Post('v2/registrar')
-  crearV2() {
-    return '';
-  }
-
-  @Get('listar')
+  @Get('listar') // ok
   read() {
     return this.catService.listar();
   }
 
-  @Get('detalle/:id')
+  @Get('detalle/:id') // ok
   detalleDeGato(@Param('id') idDeGato: string) {
     return this.catService.detalleGato(idDeGato);
   }
 
   @Patch('actualizar/:id') // url, link, enlace
-  update(@Param('id') id: number, @Body() body: CatDatosEntrada) {
+  update(@Param('id') idDeGato: string, @Body() body: CatActualizarEntrada) {
     // captura el valor desde la url
-    return this.catService.actualizar(id, body);
+    return this.catService.actualizar(idDeGato, body);
+  }
+
+  @Patch('actualizar/muchos/:nombre') // url, link, enlace
+  actualizaMuchos(
+    @Param('nombre') idDeGato: string,
+    @Body() body: CatActualizarEntrada,
+  ) {
+    // captura el valor desde la url
+    return this.catService.actualizar(idDeGato, body);
   }
 
   @Delete('eliminar/:id') // url

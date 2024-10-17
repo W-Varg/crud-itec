@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CatDatosEntrada } from './dto/cat.input.dto';
+import { CatActualizarEntrada, CatDatosEntrada } from './dto/cat.input.dto';
 import { CatModel } from './dto/cat.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -52,7 +52,6 @@ export class CatService {
   }
 
   async detalleGato(id: string) {
-    console.log(id);
     const gatoEncontrado = await this.catCollection.findById(id);
     if (gatoEncontrado === null) {
       throw new NotFoundException('gato no encontrado');
@@ -61,34 +60,24 @@ export class CatService {
     return gatoEncontrado;
   }
 
-  actualizar(id: number, body: CatDatosEntrada) {
-    // console.log(typeof id); // string
+  async actualizar(id: string, body: CatActualizarEntrada) {
+    const gatoEncontrado = await this.catCollection.findById(id);
 
-    const gatoEncontrado = this.listaDeGatos.find(
-      (elementoGato) => elementoGato.id === Number(id), // number && number
-    );
-
-    // console.log(this.listaDeGatos);
-    // console.log(gatoEncontrado);
-
-    if (gatoEncontrado === undefined) {
-      throw new NotFoundException('gato no encontrado');
+    if (gatoEncontrado === null) {
+      throw new NotFoundException(
+        'gato no encontrado, o no existe en la base de datos',
+      );
     }
+    gatoEncontrado.nombre = body.nombre;
+    gatoEncontrado.raza = body.raza;
+    gatoEncontrado.fechaActualizacion = new Date();
+    gatoEncontrado.usuarioActualizadorId = 1053;
+    // gatoEncontrado.edad = body.edad; // estan como referencia ya q no existe en la class
+    // gatoEncontrado.esBebe = body.esBebe; // no existe en el class
+    // gatoEncontrado.estaAutorizado = body.estaAutorizado; // no existe en el class
+    const gatoGuardado = await gatoEncontrado.save();
 
-    const posicionGato = this.listaDeGatos.findIndex(
-      (elementoGato) => elementoGato.id === Number(id),
-    );
-
-    this.listaDeGatos[posicionGato] = {
-      ...gatoEncontrado,
-      // nomb:''
-      // edad:7
-      ...body,
-      // nombre: 'peludo',
-      // edad: 8
-    };
-
-    return this.listaDeGatos[posicionGato];
+    return gatoGuardado;
   }
 
   // 670f09e6420bbeedde6ea331
