@@ -19,7 +19,7 @@ import { randomInt } from 'crypto';
 @ApiTags('modulo de gatos')
 @Controller('gatos')
 export class CatController {
-  constructor(private readonly catObjeto: CatService) {} // inicializar valores
+  constructor(private readonly catService: CatService) {} // inicializar valores
 
   @Post('registrar')
   async create(@Body() body: CatDatosEntrada): Promise<CatModel> {
@@ -62,21 +62,8 @@ export class CatController {
     // }
 
     // default 201
-    const catModel = this.catObjeto.create({
-      id: Number(randomInt(1, 10)), // numero al azar
-      nombre: body.nombre,
-      raza: body.raza,
-      edad: Number(body.edad),
-      esBebe: body.esBebe,
-      estaAutorizado: body.estaAutorizado,
-
-      fechaCreacion: new Date(),
-      usuarioCreadorId: 101,
-      // fechaActualizacion: new Date(),
-      // usuarioActualizadorId: 107,
-    });
-
-    return catModel;
+    const gatoCreadoEnService = this.catService.create(body);
+    return gatoCreadoEnService;
   }
 
   @Post('v2/registrar')
@@ -86,18 +73,23 @@ export class CatController {
 
   @Get('listar')
   read() {
-    return this.catObjeto.listar();
+    return this.catService.listar();
+  }
+
+  @Get('detalle/:id')
+  detalleDeGato(@Param('id') idDeGato: string) {
+    return this.catService.detalleGato(idDeGato);
   }
 
   @Patch('actualizar/:id') // url, link, enlace
   update(@Param('id') id: number, @Body() body: CatDatosEntrada) {
     // captura el valor desde la url
-    return this.catObjeto.actualizar(id, body);
+    return this.catService.actualizar(id, body);
   }
 
   @Delete('eliminar/:id') // url
   delete1(@Param('id') gato_a_eliminar: string) {
-    return this.catObjeto.eliminar(gato_a_eliminar);
+    return this.catService.eliminar(gato_a_eliminar);
   }
   // @Delete('eliminar/:gato_a_eliminar2/elimina-por-edad') // url
   // delete2(@Param('gato_a_eliminar2') gato_a_eliminar: string) {

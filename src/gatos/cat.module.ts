@@ -6,7 +6,7 @@ import { CatModel, CatSchema } from './dto/cat.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: CatModel.name, schema: CatSchema }]),
+    MongooseModule.forFeature([{ name: CatModel.name, schema: CatSchema }]), // paso 3, agregmo este modulo
   ],
   controllers: [CatController],
   providers: [CatService],
