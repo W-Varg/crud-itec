@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   // UnauthorizedException,
 } from '@nestjs/common';
 import { CatService } from './cat.service';
@@ -67,8 +68,12 @@ export class CatController {
   }
 
   @Get('listar') // ok
-  read() {
-    return this.catService.listar();
+  read(
+    @Query('raza') razaDto?: string, // que sea de la raza siames
+    @Query('nombre') nombreDto?: string, // y q su nombre sea igual a DonGato
+    // @Query('edad') edadDto?: number,
+  ) {
+    return this.catService.listar(razaDto, nombreDto);
   }
 
   @Get('detalle/:id') // ok

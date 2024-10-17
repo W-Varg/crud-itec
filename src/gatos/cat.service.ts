@@ -37,8 +37,14 @@ export class CatService {
     return gatoCreado;
   }
 
-  async listar() {
-    const gatos = await this.catCollection.find();
+  // ac, bc
+  async listar(razaVar: string, nombreDto: string) {
+    // filtrar gato por raza y que su nombre contenga la palabra Gat
+    const expresionQueDebeCumplir = new RegExp(nombreDto, 'i');
+    const gatos = await this.catCollection.find({
+      raza: razaVar,
+      nombre: expresionQueDebeCumplir, // RECODE , avanzar expresiones regular coomo concepto
+    }); // filtra automaticamente
 
     // mapeamos el listado de gatos para que devuelva un listado de gatos formateados
     const gatosFormateados = gatos.map((cadaUnoDeLosGatos) => {
@@ -68,8 +74,8 @@ export class CatService {
         'gato no encontrado, o no existe en la base de datos',
       );
     }
-    gatoEncontrado.nombre = body.nombre;
-    gatoEncontrado.raza = body.raza;
+    gatoEncontrado.nombre = body.nombre ?? undefined;
+    gatoEncontrado.raza = body.raza ?? undefined;
     gatoEncontrado.fechaActualizacion = new Date();
     gatoEncontrado.usuarioActualizadorId = 1053;
     // gatoEncontrado.edad = body.edad; // estan como referencia ya q no existe en la class
