@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+
 export type MotoDocument = HydratedDocument<MotoModel>;
 @Schema()
 export class MotoModel {
@@ -13,4 +14,5 @@ export class MotoModel {
   @Prop()
   precio: number;
 }
+
 export const MotoSchema = SchemaFactory.createForClass(MotoModel);
