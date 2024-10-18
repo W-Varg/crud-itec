@@ -5,6 +5,7 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   Param,
   Patch,
   Post,
@@ -12,9 +13,10 @@ import {
   // UnauthorizedException,
 } from '@nestjs/common';
 import { CatService } from './cat.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CatActualizarEntrada, CatDatosEntrada } from './dto/cat.input.dto';
 import { CatModel } from './dto/cat.model';
+import { SkipThrottle, Throttle } from '@nestjs/throttler';
 // import { randomInt } from 'crypto';
 
 @ApiTags('modulo de gatos')
@@ -22,9 +24,20 @@ import { CatModel } from './dto/cat.model';
 export class CatController {
   constructor(private readonly catService: CatService) {} // inicializar valores
 
+  @ApiBearerAuth()
   @Post('registrar') // ok
-  async create(@Body() body: CatDatosEntrada): Promise<CatModel> {
+  async create(
+    @Body() body: CatDatosEntrada,
+    @Headers() headers: any,
+  ): Promise<CatModel> {
     // console.log('ingreso cuando los datos son validos');
+    // console.log(headers.authorization?.name === 'cesar');
+    if (headers.authorization?.name === 'cesar') {
+      console.log('tiene permitido crear gatos');
+    } else {
+      throw new BadRequestException('usted no tiene permitido crear gatos');
+      // termina la ejecucion del programa
+    }
 
     // console.log(body.edad, Number(body.edad));
     if (Number(body.edad) > 0) {
@@ -67,6 +80,7 @@ export class CatController {
     return gatoCreadoEnService;
   }
 
+  @Throttle({ default: { limit: 3, ttl: 2000 } })
   @Get('listar') // ok
   read(
     @Query('raza') razaDto?: string, // que sea de la raza siames
@@ -76,6 +90,7 @@ export class CatController {
     return this.catService.listar(razaDto, nombreDto);
   }
 
+  // @SkipThrottle({ default: false })
   @Get('detalle/:id') // ok
   detalleDeGato(@Param('id') idDeGato: string) {
     return this.catService.detalleGato(idDeGato);

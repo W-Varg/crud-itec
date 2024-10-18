@@ -3,6 +3,7 @@ import { CatActualizarEntrada, CatDatosEntrada } from './dto/cat.input.dto';
 import { CatModel } from './dto/cat.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import * as libBcrypt from 'bcrypt';
 
 @Injectable()
 export class CatService {
@@ -29,10 +30,14 @@ export class CatService {
       // usuarioActualizadorId: 107,
     });
 
+    const datoHasheado = await libBcrypt.hash(body.raza, 10);
+
     // this.catModel.insertMany([{ nombre: 'gato1' }, { nombre: 'gato2' }]);
     // this.catModel.find();
 
     const gatoCreado = await gatoACrear.save(); // linea q almacena en la db
+
+    gatoCreado.raza = datoHasheado;
 
     return gatoCreado;
   }
