@@ -6,7 +6,7 @@ import { AutosModel, AutosSchema } from './dto/autos.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: AutosModel.name, schema: AutosSchema }]),
+    MongooseModule.forFeature([{ name: AutosModel.name, schema: AutosSchema }]), //Paso 3 agregamos este codigo
   ],
   controllers: [AutosController],
   providers: [AutosService],

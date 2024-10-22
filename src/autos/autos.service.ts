@@ -9,24 +9,20 @@ export class AutosService {
   constructor(
     @InjectModel(AutosModel.name) private autosconexion: Model<AutosModel>,
   ) {}
+
   // crud
-  listaDeAutos = [];
-  create(body: AutosDatosEntrada) {
+  private listaAutos: AutosModel[] = [];
+
+  async create(body: AutosDatosEntrada): Promise<AutosModel> {
     //this.listaDeAutos.push(body);
-    this.autosconexion
-      .insertMany([
-        { modelo: 'jimmy', marca: 'Nissan', anio: 2007 },
-        { modelo: 'patrol', marca: 'Nissan', anio: 2010 },
-        { modelo: 'condor', marca: 'Nissan', anio: 2007 },
-      ])
-      .then(() => {
-        console.log('insertado');
-      });
-
-    const createdAutos = new this.autosconexion(body);
-    return createdAutos.save();
-
-    return `Auto ${body.Marca} se creo exitosamente`;
+    console.log(body);
+    const autoACrear = new this.autosconexion({
+      modelo: body.Modelo,
+      marca: body.Marca,
+      anio: body.Año,
+    });
+    const autocreado = await autoACrear.save(); // linea que almacena en la db
+    return autocreado;
   }
   listar() {
     return this.autosconexion.find();
