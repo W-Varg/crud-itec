@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { AutosDatosEntrada } from './datos-entrada.imputs';
 import { AutosModel } from './dto/autos.model';
 import { InjectModel } from '@nestjs/mongoose';
@@ -24,9 +24,26 @@ export class AutosService {
     const autocreado = await autoACrear.save(); // linea que almacena en la db
     return autocreado;
   }
-  listar() {
-    return this.autosconexion.find();
+  async listar() {
+    const autos = await this.autosconexion.find();
+    const autosFormateados = autos.map((CadaUnoDeLosAutos) => {
+      return {
+        modelo: CadaUnoDeLosAutos.modelo,
+        marca: CadaUnoDeLosAutos.marca,
+      };
+    });
+    return autosFormateados;
   }
+
+  async detalleautos(idDeAuto: string) {
+    console.log(idDeAuto);
+    const autoencontrado = await this.autosconexion.findById(idDeAuto);
+    if (autoencontrado === null) {
+      throw new NotFoundException('gato no encontrado');
+    }
+    return autoencontrado;
+  }
+
   read() {
     return `Se encontro al Auto`;
   }

@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Patch, Delete, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Delete,
+  Body,
+  Param,
+} from '@nestjs/common';
 import { AutosService } from './autos.service';
 import { ApiTags } from '@nestjs/swagger';
 import { AutosDatosEntrada } from './datos-entrada.imputs';
@@ -12,9 +20,23 @@ export class AutosController {
     return this.autosObjeto.create(body);
   }
   @Get('listar')
-  read() {
-    return this.autosObjeto.listar();
+  async read() {
+    const autos = await this.autosObjeto.listar();
+
+    const autosFormateados = autos.map((cadaUnoDeLosAutos) => {
+      return {
+        marca: cadaUnoDeLosAutos.marca,
+        modelo: cadaUnoDeLosAutos.modelo,
+      };
+    });
+    return autosFormateados;
   }
+
+  @Get('detalle/: id')
+  detalleDeAuto(@Param('id') idDeAuto: string) {
+    return this.autosObjeto.detalleautos(idDeAuto);
+  }
+
   @Patch('Actualizar')
   update() {
     return `el Auto fue actualizado`;
