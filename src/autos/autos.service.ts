@@ -3,11 +3,13 @@ import { AutosDatosEntrada } from './datos-entrada.imputs';
 import { AutosModel } from './dto/autos.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AutosService {
   constructor(
     @InjectModel(AutosModel.name) private autosconexion: Model<AutosModel>,
+    private readonly configservice: ConfigService,
   ) {}
 
   // crud
@@ -45,6 +47,7 @@ export class AutosService {
   }
 
   read() {
+    console.log(this.configservice.get('wilberVariable'));
     return `Se encontro al Auto`;
   }
 
