@@ -3,11 +3,13 @@ import { AutosDatosEntrada } from './datos-entrada.imputs';
 import { AutosModel } from './dto/autos.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AutosService {
   constructor(
     @InjectModel(AutosModel.name) private autosconexion: Model<AutosModel>,
+    private readonly configservice: ConfigService,
   ) {}
 
   // crud
@@ -26,6 +28,7 @@ export class AutosService {
   }
   async listar() {
     const autos = await this.autosconexion.find();
+    console.log(this.configservice.get('WILBER_VARIABLE'));
     const autosFormateados = autos.map((CadaUnoDeLosAutos) => {
       return {
         modelo: CadaUnoDeLosAutos.modelo,
