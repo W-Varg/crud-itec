@@ -13,6 +13,7 @@ export class motoService {
     this.listaMotos.push(body);
     return `moto ${body.marca} creada exitosamente`;
   }
+
   listar() {
     return this.listaMotos;
   }
