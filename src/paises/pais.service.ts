@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PaisDatosEntrada } from './datos-entrada.input';
 import { PaisModel } from './pais.model';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class PaisService {
+  constructor(private readonly configService: ConfigService) {}
+
   listaPaises: PaisModel[] = [];
 
   create(body: PaisModel) {
@@ -11,6 +14,8 @@ export class PaisService {
   }
 
   read() {
+    console.log('NODE_ENVIROMENT = ', this.configService.get('nodeEnv'));
+
     return this.listaPaises;
   }
 

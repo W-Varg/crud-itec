@@ -4,11 +4,13 @@ import { CatModel } from './dto/cat.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as libBcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class CatService {
   constructor(
     @InjectModel(CatModel.name) private catCollection: Model<CatModel>,
+    private readonly configService: ConfigService,
   ) {}
 
   // crud
@@ -44,6 +46,7 @@ export class CatService {
 
   // ac, bc
   async listar(razaVar: string, nombreDto: string) {
+    console.log('NODE_ENVIROMENT = ', this.configService.get('nodeEnv'));
     // filtrar gato por raza y que su nombre contenga la palabra Gat
     const expresionQueDebeCumplir = new RegExp(nombreDto, 'i');
     const gatos = await this.catCollection.find({

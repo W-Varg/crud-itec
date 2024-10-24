@@ -3,9 +3,12 @@ import { AppModule } from './app.module';
 import { blue } from 'chalk';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const configService = app.get(ConfigService);
 
   // app.enableCors({
   //   origin: 'https://platzi.com,http://localhost:3000',
@@ -26,8 +29,12 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
 
+  const port = configService.get('port') ?? 3001;
+  // const user = configService.get<string>('database.user');
+
+  // ?? , ||
   await app
-    .listen(3001)
-    .then(() => console.info(blue.bold('Server running on port 3001')));
+    .listen(port)
+    .then(() => console.info(blue.bold(`Server running on port ${port}`)));
 }
 bootstrap();
