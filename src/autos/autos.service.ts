@@ -28,6 +28,7 @@ export class AutosService {
   }
   async listar() {
     const autos = await this.autosconexion.find();
+    console.log(this.configservice.get('WILBER_VARIABLE'));
     const autosFormateados = autos.map((CadaUnoDeLosAutos) => {
       return {
         modelo: CadaUnoDeLosAutos.modelo,
@@ -47,7 +48,6 @@ export class AutosService {
   }
 
   read() {
-    console.log(this.configservice.get('wilberVariable'));
     return `Se encontro al Auto`;
   }
 
