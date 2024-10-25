@@ -10,19 +10,83 @@ import {
   Patch,
   Post,
   Query,
+  UploadedFile,
+  UploadedFiles,
+  UseInterceptors,
   // UnauthorizedException,
 } from '@nestjs/common';
 import { CatService } from './cat.service';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CatActualizarEntrada, CatDatosEntrada } from './dto/cat.input.dto';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import {
+  CatActualizarEntrada,
+  CatDatosEntrada,
+  SubirFotoDto,
+} from './dto/cat.input.dto';
 import { CatModel } from './dto/cat.model';
 import { SkipThrottle, Throttle } from '@nestjs/throttler';
+import { FileInterceptor } from '@nestjs/platform-express';
+import * as pathFile from 'path';
+import * as fsFile from 'fs';
+import { randomInt } from 'crypto';
 // import { randomInt } from 'crypto';
 
 @ApiTags('modulo de gatos')
 @Controller('gatos')
 export class CatController {
   constructor(private readonly catService: CatService) {} // inicializar valores
+
+  @UseInterceptors(FileInterceptor('file'))
+  @Post('subir/foto')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    required: true,
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  uploadFile(@UploadedFile() file: Express.Multer.File) {
+    // guardar archivo en directorio fotos fotos
+
+    // archivo en memoria
+
+    // - definir directorio
+    // - definir el nombre
+    // - escribir ese archivo que esta memoria(buffer) en ese (direcotrio, nombre)
+
+    const lugarDeGuardado = pathFile.join(
+      __dirname,
+      '../../imagenes/gatos/wilber/cesar',
+    );
+
+    console.log(lugarDeGuardado);
+
+    if (!fsFile.existsSync(lugarDeGuardado)) {
+      // verificar si el directorio existe (inviertiendo)
+      fsFile.mkdirSync(lugarDeGuardado, { recursive: true }); // crear directorio
+    }
+
+    console.log(file);
+
+    // const nombreArchivo = `${new Date().getTime()} - ${file.originalname}`;
+    const lugarDeGuardoFinal =
+      lugarDeGuardado + '/' + randomInt(1, 1000) + file.originalname;
+
+    fsFile.writeFileSync(lugarDeGuardoFinal, file.buffer);
+
+    return 'se subo el archivo correctamente' + 'hola mu8ndo' + 'ok';
+  }
 
   @ApiBearerAuth()
   @Post('registrar') // ok
