@@ -43,3 +43,8 @@ export class CatActualizarEntrada {
   @IsOptional()
   raza?: string;
 }
+
+export class SubirFotoDto {
+  @ApiProperty()
+  name: string;
+}
