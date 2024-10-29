@@ -35,3 +35,8 @@ export class AutosActualizarEntrada {
   @IsOptional()
   marca: string;
 }
+
+export class SubirFotoDtoauto {
+  @ApiProperty()
+  name: string;
+}
