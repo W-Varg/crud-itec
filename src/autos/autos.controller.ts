@@ -16,6 +16,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { SubirFotoDtoauto } from './dto/autos.input.dto';
 import * as pathFile from 'path';
 import * as fsFile from 'fs';
+import { randomInt } from 'crypto';
 
 @ApiTags('MODULO DE AUTOS')
 @Controller('Autos')
@@ -49,21 +50,23 @@ export class AutosController {
     console.log(file); // Para ver la información del archivo
 
     // Definir el directorio de guardado
-    const lugarDeGuardado = pathFile.join(__dirname, '../../fotos-autos');
+    const lugarDeGuardado = pathFile.join(
+      __dirname,
+      '../../imagenes/ITEC/Wilber',
+    );
+    console.log(lugarDeGuardado);
 
     // Crear el directorio si no existe
     if (!fsFile.existsSync(lugarDeGuardado)) {
       fsFile.mkdirSync(lugarDeGuardado, { recursive: true }); // Agregar { recursive: true } para crear subdirectorios si es necesario
     }
-
+    console.log(file);
     // Definir el nombre del archivo
-    const nombreArchivo = `${new Date().getTime()} - ${file.originalname}`;
-
+    //const nombreArchivo = `${new Date().getTime()} - ${file.originalname}`;
     // Guardar el archivo en el directorio especificado
-    const rutaArchivoFinal = pathFile.join(lugarDeGuardado, nombreArchivo);
+    const rutaArchivoFinal =
+      lugarDeGuardado + '/' + randomInt(1, 1000) + file.originalname;
     fsFile.writeFileSync(rutaArchivoFinal, file.buffer); // Guardar el archivo
-
-    console.log(`Archivo guardado en: ${rutaArchivoFinal}`);
     return 'El archivo fue subido con éxito';
   }
 
